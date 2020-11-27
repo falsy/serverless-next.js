@@ -68,8 +68,11 @@ module.exports = async function () {
 
   nextPages.forEach((page) => {
     const functionName = page.functionName;
-    this.serverless.service.functions[functionName] =
-      page.serverlessFunction[functionName];
+    // this.serverless.service.functions[functionName] =
+    //   page.serverlessFunction[functionName];
+    const pageFunction = page.serverlessFunction[functionName];
+    pageFunction.handler = pageFunction.handler.replace('\.\.\.', 'dotdotdot');
+    this.serverless.service.functions[functionName] = pageFunction;
   });
 
   this.serverless.service.setFunctionNames();
